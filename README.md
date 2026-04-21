@@ -97,7 +97,7 @@ Run all tests:
 pytest -v
 ```
 
-The project includes eight tests that cover:
+The project includes twelve tests that cover:
 - Entry validation and normalization
 - Filtering behavior by category/month
 - Summary calculations
@@ -105,6 +105,7 @@ The project includes eight tests that cover:
 - Missing file handling
 - Invalid month input handling
 - Corrupted JSON file handling
+- Non-finite numeric input handling (`NaN`, `inf`)
 
 ## CI/CD
 
@@ -121,3 +122,12 @@ You can also open pull requests; CI runs there as well.
 - Data is stored in plain JSON and may become slow for very large histories.
 - Currency is assumed to be USD.
 - Future improvements: CSV export, budget alerts, recurring expense templates, and richer terminal formatting.
+
+## Submission checklist
+
+- Public repository link is accessible.
+- `README.md` includes installation, usage, and examples.
+- Local tests pass with `pytest -v`.
+- GitHub Actions workflow passes on `main`.
+- `AGENTS.md` is present and reflects real AI usage.
+- Commit history shows incremental development.
