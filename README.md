@@ -6,7 +6,11 @@ The tool solves a common problem: finance apps can be slow or distracting when y
 
 ## Installation
 
-1. Clone your repository and move into the project directory.
+Prerequisites:
+- Python 3.11 or newer
+- pip
+
+1. Clone the repository and move into the project directory.
 2. Create and activate a virtual environment.
 3. Install dependencies.
 
@@ -32,6 +36,12 @@ Available commands:
 - `add` adds a new expense entry.
 - `list` displays matching expense entries.
 - `summary` shows totals and category breakdown.
+
+Validation behavior:
+- `amount` must be greater than zero.
+- `date` must use `YYYY-MM-DD`.
+- `month` must use a valid `YYYY-MM` value (for example, `2026-04`).
+- Corrupted storage files produce a clear error message.
 
 ## Examples
 
@@ -87,12 +97,14 @@ Run all tests:
 pytest -v
 ```
 
-The project includes six tests that cover:
+The project includes eight tests that cover:
 - Entry validation and normalization
 - Filtering behavior by category/month
 - Summary calculations
 - Storage round-trip behavior
 - Missing file handling
+- Invalid month input handling
+- Corrupted JSON file handling
 
 ## CI/CD
 
@@ -101,6 +113,8 @@ On every push to `main`, it:
 - Sets up Python
 - Installs dependencies
 - Runs the full pytest suite
+
+You can also open pull requests; CI runs there as well.
 
 ## Known limitations and future ideas
 

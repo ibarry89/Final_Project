@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from dataclasses import asdict, dataclass
-from datetime import date
+from datetime import date, datetime
 
 
 @dataclass(frozen=True)
@@ -60,6 +60,10 @@ def filter_entries(
     if month:
         if len(month) != 7 or month[4] != "-":
             raise ValueError("Month must be in YYYY-MM format")
+        try:
+            datetime.strptime(month, "%Y-%m")
+        except ValueError as exc:
+            raise ValueError("Month must be a valid YYYY-MM value") from exc
         filtered = [entry for entry in filtered if str(entry["date"]).startswith(month)]
 
     return filtered

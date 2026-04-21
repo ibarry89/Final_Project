@@ -14,8 +14,11 @@ def load_entries(file_path: str | Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
 
-    with path.open("r", encoding="utf-8") as handle:
-        data = json.load(handle)
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except json.JSONDecodeError as exc:
+        raise ValueError("Storage file is corrupted: invalid JSON") from exc
 
     if not isinstance(data, list):
         raise ValueError("Storage file is corrupted: expected a list")

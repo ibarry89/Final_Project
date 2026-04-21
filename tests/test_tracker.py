@@ -17,6 +17,22 @@ def test_create_entry_rejects_non_positive_amount() -> None:
         assert "greater than zero" in str(error)
 
 
+def test_create_entry_rejects_empty_category() -> None:
+    try:
+        create_entry("   ", 10)
+        assert False, "Expected ValueError for empty category"
+    except ValueError as error:
+        assert "Category cannot be empty" in str(error)
+
+
+def test_create_entry_rejects_invalid_date_format() -> None:
+    try:
+        create_entry("food", 10, date_text="04-10-2026")
+        assert False, "Expected ValueError for invalid date format"
+    except ValueError as error:
+        assert "YYYY-MM-DD" in str(error)
+
+
 def test_filter_entries_by_category_and_month() -> None:
     entries = [
         create_entry("food", 10, date_text="2026-04-01"),
@@ -57,3 +73,24 @@ def test_storage_append_and_load_round_trip(tmp_path) -> None:
 def test_load_entries_returns_empty_list_when_file_missing(tmp_path) -> None:
     storage_file = tmp_path / "missing.json"
     assert load_entries(storage_file) == []
+
+
+def test_filter_entries_rejects_invalid_month_value() -> None:
+    entries = [create_entry("food", 5, date_text="2026-04-01")]
+
+    try:
+        filter_entries(entries, month="2026-13")
+        assert False, "Expected ValueError for invalid month"
+    except ValueError as error:
+        assert "valid YYYY-MM" in str(error)
+
+
+def test_load_entries_rejects_invalid_json(tmp_path) -> None:
+    storage_file = tmp_path / "broken.json"
+    storage_file.write_text("not-json", encoding="utf-8")
+
+    try:
+        load_entries(storage_file)
+        assert False, "Expected ValueError for invalid JSON"
+    except ValueError as error:
+        assert "invalid JSON" in str(error)
