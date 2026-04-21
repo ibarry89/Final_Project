@@ -33,6 +33,22 @@ def test_create_entry_rejects_invalid_date_format() -> None:
         assert "YYYY-MM-DD" in str(error)
 
 
+def test_create_entry_rejects_nan_amount() -> None:
+    try:
+        create_entry("food", float("nan"))
+        assert False, "Expected ValueError for NaN amount"
+    except ValueError as error:
+        assert "finite number" in str(error)
+
+
+def test_create_entry_rejects_infinite_amount() -> None:
+    try:
+        create_entry("food", float("inf"))
+        assert False, "Expected ValueError for infinite amount"
+    except ValueError as error:
+        assert "finite number" in str(error)
+
+
 def test_filter_entries_by_category_and_month() -> None:
     entries = [
         create_entry("food", 10, date_text="2026-04-01"),

@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
+from math import isfinite
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,9 @@ def create_entry(category: str, amount: float, note: str = "", date_text: str | 
     normalized_category = category.strip().lower()
     if not normalized_category:
         raise ValueError("Category cannot be empty")
+
+    if not isfinite(amount):
+        raise ValueError("Amount must be a finite number")
 
     if amount <= 0:
         raise ValueError("Amount must be greater than zero")
